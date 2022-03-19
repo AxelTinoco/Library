@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
+
 
 
 # Create your models here.
@@ -122,3 +124,45 @@ class Rack(models.Model):
     location_identifier = models.CharField(max_length=255)
 
 
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=500)
+
+
+    def getName(self) -> str:
+        return self.name
+
+
+class Catalog(models.Model):
+    creationDate = models.DateTimeField(auto_now_add=True)
+    totalBooks = models.IntegerField()
+    bookTitles = ArrayField(models.CharField(max_length=100, blank=False))
+    bookAuthors = ArrayField(models.CharField(max_length=100, blank=False))
+    bookSubjects = ArrayField(models.CharField(max_length=100, blank=False))
+    bookPublicationDate = ArrayField(models.DateField(auto_now_add=True))
+
+
+    def updateCatalog(self) -> bool:
+        return True
+
+
+
+# class PostalNotification(models.Model):
+    # address = Address
+ 
+
+class EmailNotification(models.Model):
+    email = models.EmailField()
+
+
+# class Notification(models.Model, EmailNotification, PostalNotification):
+#     notificationid = models.IntegerField()
+#     createdOn = models.DateTimeField(auto_now_add=True)
+#     content = models.TextField(max_length=500)
+
+
+#     def sendNotification(self)-> bool:
+#         return True
+    
